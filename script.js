@@ -2,6 +2,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const yesBtn = document.getElementById('yes-btn');
     const noBtn = document.getElementById('no-btn');
     const reasonsList = document.getElementById('reasons-list');
+    const reasonsCard = document.getElementById('reasons-card');
     const buttonsContainer = document.querySelector('.buttons');
     const container = document.querySelector('.container');
     
@@ -13,80 +14,107 @@ document.addEventListener('DOMContentLoaded', function() {
             <i class="fas fa-heart heart-icon"></i>
         </div>
         <p class="script-text special-font">Thank you!</p>
-        <p>Thank you for forgiving me! ❤️</p>
-        <p>I promise to make it up to you and be more considerate in the future.</p>
+        <p>Thank you so much for forgiving me! ❤️</p>
+        <p>I promise to be more considerate in the future.</p>
         <p>Your forgiveness means the world to me.</p>
         <div class="back-link">
-            <button class="back-button" onclick="window.location.reload()">Back to letter</button>
+            <button class="back-button" onclick="window.location.reload()">Back to the letter 💌</button>
         </div>
     `;
     thankYouSection.style.display = 'none';
     container.appendChild(thankYouSection);
 
-    // Make the "Yes" button show thank you message when clicked
+    // Remove the mouseenter event listener - we don't want the reasons card to show on hover
+    // Instead, only show it after the Yes button is clicked
+
+    // Make the "Yes" button show thank you message and reasons card when clicked
     yesBtn.addEventListener('click', function() {
-        // Fade out all current content
+        // Fade out all current content except for the thank-you-card
         const allCards = document.querySelectorAll('.card:not(.thank-you-card)');
         allCards.forEach(card => {
             card.style.opacity = '0';
-            card.style.transition = 'opacity 1s ease';
+            card.style.transition = 'opacity 0.5s ease';
         });
         
-        // After fadeout, hide all cards and show thank you
+        // After fadeout, show thank you message and reasons card
         setTimeout(() => {
-            allCards.forEach(card => {
-                card.style.display = 'none';
-            });
+            // Hide forgive card and main card
+            document.querySelector('.forgive-card').style.display = 'none';
+            document.querySelector('.main-card').style.display = 'none';
+            
+            // Remove reasonsCard from its current position
+            if (reasonsCard.parentNode) {
+                reasonsCard.parentNode.removeChild(reasonsCard);
+            }
             
             // Show thank you message at the top
             thankYouSection.style.display = 'block';
             thankYouSection.style.opacity = '0';
             
-            // Slide in and fade in animation
-            setTimeout(() => {
+            // Insert reasons card after thank you section
+            thankYouSection.after(reasonsCard);
+            reasonsCard.style.display = 'block';
+            reasonsCard.style.opacity = '0';
+            
+            // Animate them in
+            requestAnimationFrame(() => {
                 thankYouSection.style.opacity = '1';
-                thankYouSection.style.transition = 'opacity 1s ease';
+                thankYouSection.style.transition = 'opacity 0.5s ease';
                 
-                // Create heart explosion animation
-                createHeartExplosion();
-            }, 100);
-        }, 1000);
+                // Slightly delay the reasons card appearance for a nice effect
+                setTimeout(() => {
+                    reasonsCard.style.opacity = '1';
+                    reasonsCard.style.transition = 'opacity 0.5s ease';
+                }, 300);
+            });
+        }, 500);
     });
 
     // Handle No button hover - make it vanish and Yes button center
     noBtn.addEventListener('mouseover', function() {
-        // Make No button disappear
+        // Make No button disappear faster
         this.style.opacity = '0';
+        this.style.transition = 'opacity 0.2s ease'; // Reduced from 0.3s to 0.2s
+        
         setTimeout(() => {
             this.style.visibility = 'hidden';
-
+            
             // Center the Yes button
             buttonsContainer.style.justifyContent = 'center';
-
+            
             // Move No button to random position for next appearance
             moveNoButtonToRandomPosition();
-        }, 300);
+        }, 200); // Reduced from 300ms to 200ms
     });
 
     // Make No button sometimes act like Yes button (20% chance)
     noBtn.addEventListener('click', function() {
         // 20% chance of treating "No" as "Yes"
         if (Math.random() < 0.2) {
-            // Trigger the same behavior as Yes button
-            yesBtn.click();
+            // Create transition effect before triggering yes button
+            document.body.style.opacity = '0.8'; // Less fading
+            document.body.style.transition = 'opacity 0.3s ease'; // Shorter transition
+            
+            // Wait for shorter transition then click yes
+            setTimeout(() => {
+                document.body.style.opacity = '1';
+                yesBtn.click();
+            }, 300); // Reduced from 1000ms to 300ms
         } else {
             // Otherwise just make it vanish and reappear at random location
             this.style.opacity = '0';
+            this.style.transition = 'opacity 0.2s ease'; // Shorter fade
+            
             setTimeout(() => {
                 this.style.visibility = 'hidden';
                 moveNoButtonToRandomPosition();
-
-                // Make it reappear at new position
+                
+                // Make it reappear at new position faster
                 setTimeout(() => {
                     this.style.visibility = 'visible';
                     this.style.opacity = '1';
-                }, 500);
-            }, 300);
+                }, 300); // Reduced from 500ms to 300ms
+            }, 200); // Reduced from 300ms to 200ms
         }
     });
 
@@ -107,17 +135,19 @@ document.addEventListener('DOMContentLoaded', function() {
         noBtn.style.zIndex = '1000';
     }
 
-    // Add CSS transitions for smooth animations
-    yesBtn.style.transition = 'all 0.3s ease';
-    noBtn.style.transition = 'opacity 0.3s ease, left 0s, top 0s';
+    // Add CSS transitions for smooth but faster animations
+    yesBtn.style.transition = 'all 0.2s ease'; // Reduced from 0.3s to 0.2s
+    noBtn.style.transition = 'opacity 0.2s ease, left 0s, top 0s'; // Reduced from 0.3s to 0.2s
 
     // Optional: Add more reasons dynamically
     const additionalReasons = [
-        "The way your eyes light up when you laugh",
+        "How you always know how to make me smile",
         "How you always support me",
         "Your amazing sense of humor",
         "The cute way you get excited about little things",
-        "How passionate you are about what you love"
+        "How passionate you are about what you love",
+        "Your kindness to everyone around you",
+        "How you always make time for me",
     ];
 
     // Function to add a reason with animation
@@ -135,7 +165,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
             // Schedule the next reason if any remain
             if (additionalReasons.length > 0) {
-                setTimeout(addReason, 5000);
+                setTimeout(addReason, 2000);
             }
         }
     }
@@ -143,59 +173,23 @@ document.addEventListener('DOMContentLoaded', function() {
     // Start adding reasons after 10 seconds
     setTimeout(addReason, 10000);
 
-    function createHeartExplosion() {
-        const container = document.querySelector('.container');
+    // Enhanced dark mode toggle with some preferences saving
+    // Update to use the new darkmode-toggle ID instead of dark-mode-toggle
+    const toggleCheckbox = document.getElementById('darkmode-toggle');
 
-        for (let i = 0; i < 50; i++) {
-            const heart = document.createElement('i');
-            heart.classList.add('fas', 'fa-heart');
-            heart.style.color = '#ff6b8b';
-            heart.style.position = 'absolute';
-            heart.style.left = '50%';
-            heart.style.top = '50%';
-            heart.style.fontSize = `${Math.random() * 20 + 10}px`;
-
-            const angle = Math.random() * Math.PI * 2;
-            const distance = Math.random() * 200 + 50;
-            const duration = Math.random() * 2 + 1;
-
-            heart.style.transform = 'translate(-50%, -50%)';
-            heart.style.opacity = '0';
-
-            heart.style.animation = `
-                explode ${duration}s forwards,
-                fadeOut ${duration}s forwards
-            `;
-
-            heart.style.animationTimingFunction = 'ease-out';
-
-            const keyframes = `
-            @keyframes explode {
-                to {
-                    transform: translate(
-                        calc(-50% + ${Math.cos(angle) * distance}px),
-                        calc(-50% + ${Math.sin(angle) * distance}px)
-                    );
-                }
-            }
-
-            @keyframes fadeOut {
-                0% { opacity: 1; }
-                80% { opacity: 1; }
-                100% { opacity: 0; }
-            }`;
-
-            const style = document.createElement('style');
-            style.innerHTML = keyframes;
-            document.head.appendChild(style);
-
-            container.appendChild(heart);
-
-            // Remove hearts after animation
-            setTimeout(() => {
-                heart.remove();
-                style.remove();
-            }, duration * 1000);
-        }
+    // Check if user previously enabled dark mode
+    if (localStorage.getItem('darkMode') === 'enabled') {
+        document.body.classList.add('dark-mode');
+        toggleCheckbox.checked = true;
     }
+
+    toggleCheckbox.addEventListener('change', () => {
+        if (toggleCheckbox.checked) {
+            document.body.classList.add('dark-mode');
+            localStorage.setItem('darkMode', 'enabled');
+        } else {
+            document.body.classList.remove('dark-mode');
+            localStorage.setItem('darkMode', 'disabled');
+        }
+    });
 });
