@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>I'm Sorry</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&family=Pacifico&family=Sacramento&family=Great+Vibes&display=swap" rel="stylesheet">
+    <link rel="icon" type="image/png" href="images/im-sorry.png">
+    <script>
+        (function() {
+            const savedDarkMode = localStorage.getItem('darkMode');
+            const prefersDarkMode = window.matchMedia &&
+                window.matchMedia('(prefers-color-scheme: dark)').matches;
+            const isDarkMode = savedDarkMode === 'enabled' ||
+                (savedDarkMode === null && prefersDarkMode);
+
+            if (isDarkMode) {
+                document.documentElement.classList.add('dark-mode');
+            }
+
+            setTimeout(() => {
+                const toggle = document.getElementById('darkmode-toggle');
+                if (toggle) toggle.checked = isDarkMode;
+            }, 0);
+        })();
+    </script>
+</head>
+<body>
+    <div class="theme-toggle">
+        <input type="checkbox" id="darkmode-toggle">
+        <label for="darkmode-toggle">
+            <svg class="sun" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                <circle cx="12" cy="12" r="5"></circle>
+                <line x1="12" y1="1" x2="12" y2="3"></line>
+                <line x1="12" y1="21" x2="12" y2="23"></line>
+                <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                <line x1="1" y1="12" x2="3" y2="12"></line>
+                <line x1="21" y1="12" x2="23" y2="12"></line>
+                <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+            </svg>
+            <svg class="moon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                <path d="M21 12.79A9 9 0 1 1 11.21 3 A7 7 0 0 0 21 12.79z"></path>
+            </svg>
+        </label>
+    </div>
+
+    <div class="container">
+        <div class="card main-card">
+            <div class="sorry-gif">
+                <img src="images/sorry.gif" alt="Sorry GIF" class="sorry-image">
+            </div>
+            
+            <h1>I'm <span class="highlight">Sorry</span></h1>
+            
+            <div class="message">
+                <p class="script-text header special-font">To my cherished treasure,</p>
+                <p>I've been reflecting on what happened between us recently and realized how much could my stupid mistake may hurt you. Therefore, I'm writing this letter to express that</p>
+                <p class="script-text sorry-line special-font">I'm truly sorry for my mistake.</p>
+                <p>Your feelings are really important to me, and I feel terrible knowing that I've hurt you. I should have been more careful with my action.</p>
+                <p>I'm especially sorry for annoying you so late at night. You deserve to rest peacefully without being disturbed. I should have waited until morning.</p>
+                <p>I got caught up in my own thoughts and didn't consider how my timing would affect you. That wasn't fair, and I promise to be more mindful going forward.</p>
+                <p>You bring so much happiness to my life. I never want to hurt you with thoughtless behavior.</p>
+                <p>I'm going to do better - I'll listen more carefully, respect your boundaries, and give you the attention and care you deserve.</p>
+                <p>Can you forgive me?</p>
+                <p class="script-text signature special-font">Your wayward sinner,</p>
+                <p class="script-text signature special-font">Phuc Nguyen</p>
+            </div>
+        </div>
+
+        <div class="card forgive-card">
+            <div class="forgive-section">
+                <p>Do you forgive me?</p>
+                <div class="buttons">
+                    <button id="yes-btn">Yes</button>
+                    <button id="no-btn">No</button>
+                </div>
+            </div>
+        </div>
+
+        <div id="reasons-card" class="card reasons-card" style="display: none;">
+            <h2>Things I love about you</h2>
+            <ul id="reasons-list">
+                <li>Your beautiful smile</li>
+                <li>Your kindness towards me</li>
+                <li>The way you make me feel special</li>
+                <li>Your incredible adorability</li>
+                <li>Your engagement in the our conversations</li>
+            </ul>
+        </div>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>
